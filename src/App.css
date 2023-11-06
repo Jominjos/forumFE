@@ -23,3 +23,9 @@
   /* background-color: #ffffff;
   background-image: linear-gradient(315deg, #ffffff 0%, #91bae9 74%); */
 }
+
+#login-form {
+  width: 40vh;
+  padding: auto;
+  margin: auto;
+}

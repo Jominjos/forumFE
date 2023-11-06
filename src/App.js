@@ -106,7 +106,7 @@ function App() {
         <div className=" m-5 .container-fluid " id="chat-con">
           {!isRegistered &&
           (userName !== "" || userName !== null || userName !== undefined) ? (
-            <div>
+            <div id="login-form">
               <h5 className="text-center mb-2">Register</h5>
               <Form onSubmit={register}>
                 <Form.Group className="mb-3">
