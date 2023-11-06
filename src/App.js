@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
-import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
+import "../src/App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Form, Button, Card, ListGroup } from "react-bootstrap";
 
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -71,120 +72,135 @@ function App() {
   useEffect(scrollToBottom, [messages]);
 
   return (
-    <Container
-      className="vh-100 d-flex flex-column justify-content-center align-items-center"
-      style={{ background: "#85FFBD" }}
-    >
-      <h6 className="text-center mt-2">Active Users:</h6>
-      <div className="d-flex justify-content-center align-items-center gap-4">
-        {activeUsers.length > 0 ? (
-          activeUsers.map((user, i) => (
-            <Card key={i} bg="success" text="white">
+    <div>
+      <h1 className="text-center text-white m-0" id="heading">
+        FourM
+      </h1>
+
+      <Container
+        className=" d-flex flex-column justify-content-center align-items-center"
+        style={{ background: "#ffffff" }}
+      >
+        <h6 className="text-center mt-2  ">Active Users:</h6>
+        <div className="d-flex justify-content-center align-items-center gap-4 mb-4">
+          {activeUsers.length > 0 ? (
+            activeUsers.map((user, i) => (
+              <Card key={i} bg="dark" text="white">
+                <Card.Body className="d-flex align-items-center">
+                  <AccountCircleIcon />
+                  <Card.Text>{user}</Card.Text>
+                </Card.Body>
+              </Card>
+            ))
+          ) : (
+            <Card bg="light" text="dark">
               <Card.Body className="d-flex align-items-center">
                 <AccountCircleIcon />
-                <Card.Text>{user}</Card.Text>
+                <Card.Text>No Active Users</Card.Text>
               </Card.Body>
             </Card>
-          ))
-        ) : (
-          <Card bg="light" text="dark">
-            <Card.Body className="d-flex align-items-center">
-              <AccountCircleIcon />
-              <Card.Text>No Active Users</Card.Text>
-            </Card.Body>
-          </Card>
-        )}
-      </div>
-      {!isRegistered &&
-      (userName !== "" || userName !== null || userName !== undefined) ? (
-        <Card className="w-90 mt-2">
-          <Card.Body>
-            <h5 className="text-center mb-2">Register</h5>
-            <Form onSubmit={register}>
-              <Form.Group className="mb-3">
-                <Form.Control
-                  type="text"
-                  value={userName}
-                  placeholder="Username"
-                  onChange={(e) => setUserName(e.target.value)}
-                />
-              </Form.Group>
-              <Button type="submit" variant="success" className="w-100">
-                Login
-              </Button>
-              {registrationError && (
-                <p className="text-center text-danger mt-3">
-                  {registrationError}
-                </p>
-              )}
-            </Form>
-          </Card.Body>
-        </Card>
-      ) : (
-        <Card className="w-90 mt-2">
-          <Card.Body>
-            <h5 className="text-center mb-2">FourM</h5>
-            <div
-              id="messages-container"
-              style={{
-                flexGrow: 1,
-                overflow: "auto",
-                marginBottom: "16px",
-                backgroundColor: "#D0F0C0",
-              }}
-            >
-              <ListGroup>
-                {messages.map((msg, index) => (
-                  <ListGroup.Item
-                    key={index}
-                    className={`d-flex justify-content-${
-                      msg.userId === socket.id ? "end" : "start"
-                    }`}
-                  >
-                    <div
-                      className="message-text"
-                      style={{
-                        wordBreak: "break-word",
-                        padding: "8px 12px",
-                        borderRadius:
-                          msg.userId === socket.id
-                            ? "10px 0 10px 10px"
-                            : "0 10px 10px 10px",
-                        backgroundColor:
-                          msg.userId === socket.id ? "#F4D03F" : "#FF3CAC",
-                        backgroundImage:
-                          msg.userId === socket.id
-                            ? "linear-gradient(132deg, #F4D03F 0%, #16A085 100%)"
-                            : "linear-gradient(225deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%)",
-                        color: "white",
-                      }}
-                    >
-                      <div className="message-sender">
-                        {msg.userName === userName ? "You" : msg.userName}
-                      </div>
-                      <div className="message-content">{msg.message}</div>
-                    </div>
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
+          )}
+        </div>
+      </Container>
+      <div className="d-flex justify-content-center" id="chat-con1">
+        <div className=" m-5 .container-fluid " id="chat-con">
+          {!isRegistered &&
+          (userName !== "" || userName !== null || userName !== undefined) ? (
+            <div>
+              <h5 className="text-center mb-2">Register</h5>
+              <Form onSubmit={register}>
+                <Form.Group className="mb-3">
+                  <Form.Control
+                    type="text"
+                    value={userName}
+                    placeholder="Username"
+                    onChange={(e) => setUserName(e.target.value)}
+                  />
+                </Form.Group>
+                <Button type="submit" variant="dark" className="w-100">
+                  Enter Forum
+                </Button>
+                {registrationError && (
+                  <p className="text-center text-danger mt-3">
+                    {registrationError}
+                  </p>
+                )}
+              </Form>
             </div>
-            <Form onSubmit={handleSendMessage}>
-              <Form.Group className="mb-3">
-                <Form.Control
-                  type="text"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Enter Message"
-                />
-              </Form.Group>
-              <Button type="submit" variant="primary" className="w-100">
-                Send
-              </Button>
-            </Form>
-          </Card.Body>
-        </Card>
-      )}
-    </Container>
+          ) : (
+            <div>
+              <h5 className="text-center mb-2">Chats</h5>
+              <div
+                id="messages-container"
+                style={{
+                  flexGrow: 1,
+                  overflow: "auto",
+                  marginBottom: "16px",
+                  backgroundColor: "#D0F0C0",
+                }}
+              >
+                <ListGroup>
+                  {messages.map((msg, index) => (
+                    <ListGroup.Item
+                      key={index}
+                      className={`d-flex justify-content-${
+                        msg.userId === socket.id ? "end" : "start"
+                      }`}
+                      style={{ border: 0 }}
+                    >
+                      <div
+                        className="message-text"
+                        style={{
+                          wordBreak: "break-word",
+                          padding: "5px 50px 5px 20px",
+                          borderRadius:
+                            msg.userId === socket.id
+                              ? "10px 0 10px 10px"
+                              : "0 10px 10px 10px",
+                          backgroundColor:
+                            msg.userId === socket.id ? "	#1E90FF" : "	#1E90FF",
+                          // backgroundImage:
+                          //   msg.userId === socket.id
+                          //     ? "linear-gradient(132deg, #F4D03F 0%, #16A085 100%)"
+                          //     : "linear-gradient(225deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%)",
+                          color: "white",
+                        }}
+                      >
+                        <div
+                          className="message-sender"
+                          style={{ fontSize: "15px", color: "black" }}
+                        >
+                          {msg.userName === userName ? "You" : msg.userName}
+                        </div>
+                        <div
+                          className="message-content"
+                          style={{ fontSize: "20px" }}
+                        >
+                          {msg.message}
+                        </div>
+                      </div>
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              </div>
+              <Form onSubmit={handleSendMessage}>
+                <Form.Group className="mb-3">
+                  <Form.Control
+                    type="text"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="Enter Message"
+                  />
+                </Form.Group>
+                <Button type="submit" variant="dark" className="w-100">
+                  Send
+                </Button>
+              </Form>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 
